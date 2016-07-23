@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TrainHopper</string>
+    <string name="action_settings">Settings</string>
+    <array name="station_list">
+        <item>Lucknow NR(LKO)</item>
+        <item>Lucknow NE(LJN)</item>
+        <item>Kanpur Central (CNB)</item>
+        <item>Hazrat Nizamuddin (NZM)</item>
+        <item>Ruthiyai (RTA)</item>
+        <item>Bina (BINA)</item>
+        <item>New Delhi (NDLS)</item>
+    </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
