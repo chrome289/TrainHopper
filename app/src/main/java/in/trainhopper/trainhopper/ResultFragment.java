@@ -15,19 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
-
 public class ResultFragment extends Fragment {
 
     View fview;
     int checkedItemId = 0;
     ListView listView;
     ResultListViewAdapter resultListViewAdapter;
-    static public ArrayList<Element> elementsArrayList = new ArrayList<>();
-
     public ResultFragment() {
         // Required empty public constructor
     }
@@ -39,7 +32,7 @@ public class ResultFragment extends Fragment {
         // Inflate the layout for this fragment
         if (fview == null)
             fview = inflater.inflate(R.layout.fragment_result, container, false);
-        if (elementsArrayList.size() == 0) {
+        if (JsonParser.resultContainerArrayList.size() == 0) {
             TextView textView = (TextView) fview.findViewById(R.id.textView30);
             textView.setVisibility(View.VISIBLE);
         } else {
@@ -68,13 +61,13 @@ public class ResultFragment extends Fragment {
         });
 
         listView = (ListView) fview.findViewById(R.id.listView);
-        resultListViewAdapter = new ResultListViewAdapter(getActivity(), elementsArrayList);
+        resultListViewAdapter = new ResultListViewAdapter(getActivity(), JsonParser.resultContainerArrayList);
         listView.setAdapter(resultListViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MainActivity.selectedOption.selectedOptionID = i;
-                MainActivity.selectedOption.element = elementsArrayList.get(i);
+                MainActivity.selectedOption.element = JsonParser.resultContainerArrayList.get(i);
                 Log.v(MainActivity.TAG, i + "");
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frame, MainActivity.selectedOption, "select").addToBackStack(null);
@@ -86,7 +79,7 @@ public class ResultFragment extends Fragment {
     }
 
     private void sortListView() {
-        if (checkedItemId == 0) {//total duration
+       /* if (checkedItemId == 0) {//total duration
             for (int x = 1; x < elementsArrayList.size(); x++) {
                 Elements elements1 = elementsArrayList.get(x).select("div.right");
                 Elements elements2 = elementsArrayList.get(x - 1).select("div.right");
@@ -151,8 +144,26 @@ public class ResultFragment extends Fragment {
             }
             elementsArrayList=elementsArrayList1;
         }
-        resultListViewAdapter = new ResultListViewAdapter(getActivity(), elementsArrayList);
+        if (checkedItemId == 3) {//wait item
+            for (int x = 1; x < elementsArrayList.size(); x++) {
+                Elements elements1 = elementsArrayList.get(x).select("span.wait-time");
+                Elements elements2 = elementsArrayList.get(x - 1).select("span.wait-time");
+                Log.v(MainActivity.TAG, Integer.parseInt(elements1.get(0).ownText().replace(":", "")) + "----" + Integer.parseInt(elements2.get(0).ownText().replace(":", "")));
+                if (Integer.parseInt(elements1.get(0).ownText().replace(":", "")) < Integer.parseInt(elements2.get(0).ownText().replace(":", ""))) {
+                    int z = 0;
+                    for (int y = x - 1; y >= 0; y--) {
+                        Elements elements3 = elementsArrayList.get(y).select("span.wait-time");
+                        if (Integer.parseInt(elements1.get(0).ownText().replace(":", "")) < Integer.parseInt(elements3.get(0).ownText().replace(":", "")))
+                            z = y;
+                    }
+                    elementsArrayList.add(z, elementsArrayList.get(x));
+                    elementsArrayList.remove(x + 1);
+                }
+            }
+        }*/
+        resultListViewAdapter = new ResultListViewAdapter(getActivity(), JsonParser.resultContainerArrayList);
         listView.setAdapter(resultListViewAdapter);
         resultListViewAdapter.notifyDataSetChanged();
     }
+
 }

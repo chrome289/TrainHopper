@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     static ResultFragment resultFragment = new ResultFragment();
     static SelectedOption selectedOption = new SelectedOption();
     static Context context;
-    static public String TAG = "Nero", source = "", destination = "", sourceName = "", destinationName = "";
+    static public String TAG = "Nero", source = "", destination = "", sourceName = "", destinationName = "",time="";
 
 
     @Override

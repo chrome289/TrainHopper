@@ -65,14 +65,14 @@
         android:layout_height="wrap_content"
         android:text="Select a Date"
         android:id="@+id/date"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="35dp"
         android:background="#f9e0e0e0"
-        android:padding="15dp"
+        android:padding="12dp"
         android:focusable="false"
-        android:layout_below="@+id/destination"
-        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textSize="16sp"/>
+        android:textSize="14sp"
+        android:layout_below="@+id/destination"
+        android:layout_alignStart="@+id/destination" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,13 +80,26 @@
         android:text="Select Classes"
         android:id="@+id/classes"
         android:background="#f9e0e0e0"
-        android:padding="15dp"
+        android:padding="12dp"
         android:layout_marginTop="30dp"
         android:layout_below="@+id/date"
         android:layout_centerHorizontal="true"
         android:focusable="false"
         android:gravity="center"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select a Time"
+            android:id="@+id/time"
+            android:background="#f9e0e0e0"
+            android:padding="12dp"
+            android:focusable="false"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:layout_alignTop="@+id/date"
+            android:layout_alignEnd="@+id/destination" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

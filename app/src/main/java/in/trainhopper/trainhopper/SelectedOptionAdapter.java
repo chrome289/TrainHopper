@@ -2,6 +2,7 @@ package in.trainhopper.trainhopper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +10,21 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by Siddharth on 25-Jul-16.
  */
-public class DetailResultListViewAdapter extends BaseAdapter {
+public class SelectedOptionAdapter extends BaseAdapter {
     private Activity context;
-    ArrayList<DetailedResultContainer> containers = new ArrayList<>();
 
-    public DetailResultListViewAdapter(Activity context, ArrayList<DetailedResultContainer> containers) {
+    public SelectedOptionAdapter(Activity context) {
         this.context = context;
-        this.containers = containers;
     }
 
     @Override
     public int getCount() {
-        return containers.size();
+        return SelectedOption.element.legs.size();
     }
 
     @Override
@@ -45,44 +43,45 @@ public class DetailResultListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.result_details_card, null);
 
             TextView textView = (TextView) convertView.findViewById(R.id.textView11);
-            textView.setText(containers.get(position).station1);
+            textView.setText(SelectedOption.element.legs.get(position).station_id_start);
             textView = (TextView) convertView.findViewById(R.id.textView12);
-            textView.setText(containers.get(position).station2);
+            textView.setText(SelectedOption.element.legs.get(position).station_id_end);
 
             textView = (TextView) convertView.findViewById(R.id.textView13);
-            textView.setText(containers.get(position).trainName);
+            textView.setText(SelectedOption.element.legs.get(position).train_name);
             textView = (TextView) convertView.findViewById(R.id.textView14);
-            textView.setText(containers.get(position).trainNo);
+            Log.v(MainActivity.TAG,position+"::::"+SelectedOption.element.legs.get(position).train_id);
+            textView.setText(SelectedOption.element.legs.get(position).train_id+"");
             textView = (TextView) convertView.findViewById(R.id.textView29);
-            textView.setText(containers.get(position).trainClass);
+            textView.setText(SelectedOption.element.legs.get(position).train_class);
 
             textView = (TextView) convertView.findViewById(R.id.textView26);
-            textView.setText(containers.get(position).stationNameStart);
+            textView.setText(SelectedOption.element.legs.get(position).station_name_start);
             textView = (TextView) convertView.findViewById(R.id.textView27);
-            textView.setText(containers.get(position).stationNameEnd);
+            textView.setText(SelectedOption.element.legs.get(position).station_name_end);
 
 
             final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
 
             textView = (TextView) convertView.findViewById(R.id.textView15);
-            textView.setText(containers.get(position).station1);
+            textView.setText(SelectedOption.element.legs.get(position).station_name_start);
 
-            Date dateObj = sdf.parse(containers.get(position).arrival1);
+            Date dateObj = sdf.parse(SelectedOption.element.legs.get(0).arrival_start/3600+":"+(((SelectedOption.element.legs.get(0).arrival_start/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).arrival_start/60%60);
             textView = (TextView) convertView.findViewById(R.id.textView16);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
-            dateObj = sdf.parse(containers.get(position).departure1);
+            dateObj = sdf.parse(SelectedOption.element.legs.get(0).departure_start/3600+":"+(((SelectedOption.element.legs.get(0).departure_start/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).departure_start/60%60);
             textView = (TextView) convertView.findViewById(R.id.textView17);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
             textView = (TextView) convertView.findViewById(R.id.textView18);
-            textView.setText(containers.get(position).station2);
+            textView.setText(SelectedOption.element.legs.get(position).station_name_end);
 
-            dateObj = sdf.parse(containers.get(position).arrival2);
+            dateObj = sdf.parse(SelectedOption.element.legs.get(0).arrival_end/3600+":"+(((SelectedOption.element.legs.get(0).arrival_end/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).arrival_end/60%60);
             textView = (TextView) convertView.findViewById(R.id.textView19);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
-            dateObj = sdf.parse(containers.get(position).departure2);
+            dateObj = sdf.parse(SelectedOption.element.legs.get(0).departure_end/3600+":"+(((SelectedOption.element.legs.get(0).departure_end/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).departure_end/60%60);
             textView = (TextView) convertView.findViewById(R.id.textView20);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
@@ -94,4 +93,3 @@ public class DetailResultListViewAdapter extends BaseAdapter {
         return convertView;
     }
 }
-

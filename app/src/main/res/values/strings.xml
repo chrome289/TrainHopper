@@ -8025,6 +8025,7 @@
         <item>Total Duration</item>
         <item>Arrival Time(Source)</item>
         <item>Arrival Time(Destination)</item>
+        <item>Shortest Wait Time</item>
     </array>
     <array name="station_code">
         <item>AA</item>

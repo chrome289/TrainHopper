@@ -28,7 +28,7 @@
                 android:foregroundGravity="center"
                 android:gravity="center"
                 android:text="Station 1"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:layout_alignBottom="@+id/imageView3"
                 android:layout_alignTop="@+id/imageView3"
                 android:layout_alignParentStart="true"
@@ -45,7 +45,7 @@
                 android:foregroundGravity="center"
                 android:gravity="center"
                 android:text="Station 2"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -66,7 +66,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
                 android:text="Train Name"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView14"
@@ -87,7 +87,7 @@
                 android:layout_marginTop="30dp"
                 android:text="Station 1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -125,7 +125,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Station 2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/textView19"
@@ -170,7 +170,7 @@
                 android:text="Arrival"
                 android:id="@+id/textView21"
                 android:textColor="#d50000"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_above="@+id/textView16"
                 android:layout_marginBottom="25dp"
                 android:layout_alignParentStart="true"
@@ -184,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:text="Departure"
                 android:id="@+id/textView23"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#64dd17"
                 android:layout_above="@+id/textView17"
                 android:layout_marginBottom="25dp"
@@ -204,7 +204,8 @@
                 android:layout_below="@+id/textView12"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
-                android:ellipsize="marquee" />
+                android:ellipsize="marquee"
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -217,7 +218,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignEnd="@+id/textView11"
                 android:gravity="center"
-                android:ellipsize="marquee" />
+                android:ellipsize="marquee"
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -227,7 +229,8 @@
                 android:id="@+id/textView28"
                 android:layout_below="@+id/textView18"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="38dp" />
+                android:layout_marginTop="38dp"
+                android:textSize="12sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -237,7 +240,9 @@
                 android:layout_below="@+id/textView28"
                 android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="false"
+                android:textSize="16sp" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
