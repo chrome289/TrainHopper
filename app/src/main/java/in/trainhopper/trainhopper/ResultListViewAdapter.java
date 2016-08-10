@@ -72,7 +72,7 @@ public class ResultListViewAdapter extends BaseAdapter {
                 textView.setText(resultElements.get(position).legs.get(0).station_name_end);
 
                 textView = (TextView) convertView.findViewById(R.id.textView33);
-                textView.setText("Day " +resultElements.get(position).legs.get(1).day_def);
+                textView.setText("Day " + resultElements.get(position).legs.get(1).day_def);
 
             }
             textView = (TextView) convertView.findViewById(R.id.textView3);
@@ -88,21 +88,21 @@ public class ResultListViewAdapter extends BaseAdapter {
             textView.setText("Day 0");
 
             textView = (TextView) convertView.findViewById(R.id.textView7);
-            textView.setText(resultElements.get(position).total_duration/3600+":"+(((resultElements.get(position).total_duration/60%60)<10)?"0":"")+ resultElements.get(position).total_duration/60%60+" hrs");
+            textView.setText(resultElements.get(position).total_duration / 3600 + ":" + (((resultElements.get(position).total_duration / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).total_duration / 60 % 60 + " hrs");
 
             final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
 
-           // Log.v(MainActivity.TAG,"result time"+ resultElements.get(position).legs.get(0).arrival_start/3600+":"+(((resultElements.get(position).legs.get(0).arrival_start/60%60)<10)?"0":"")+ resultElements.get(position).legs.get(0).arrival_start/60%60);
-            Date dateObj = sdf.parse(resultElements.get(position).legs.get(0).arrival_start/3600+":"+(((resultElements.get(position).legs.get(0).arrival_start/60%60)<10)?"0":"")+ resultElements.get(position).legs.get(0).arrival_start/60%60);
+            // Log.v(MainActivity.TAG,"result time"+ resultElements.get(position).legs.get(0).arrival_start/3600+":"+(((resultElements.get(position).legs.get(0).arrival_start/60%60)<10)?"0":"")+ resultElements.get(position).legs.get(0).arrival_start/60%60);
+            Date dateObj = sdf.parse(resultElements.get(position).legs.get(0).arrival_start / 3600 + ":" + (((resultElements.get(position).legs.get(0).arrival_start / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).legs.get(0).arrival_start / 60 % 60);
             textView = (TextView) convertView.findViewById(R.id.textView2);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
-            dateObj = sdf.parse(resultElements.get(position).legs.get(0).arrival_end/3600+":"+(((resultElements.get(position).legs.get(0).arrival_end/60%60)<10)?"0":"")+ resultElements.get(position).legs.get(0).arrival_end/60%60);
+            dateObj = sdf.parse(resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 3600 + ":" + (((resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 60 % 60);
             textView = (TextView) convertView.findViewById(R.id.textView8);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
             textView = (TextView) convertView.findViewById(R.id.textView34);
-            textView.setText(resultElements.get(position).wait_time/3600+":"+(((resultElements.get(position).wait_time/60%60)<10)?"0":"")+ resultElements.get(position).wait_time/60%60+" hrs");
+            textView.setText(resultElements.get(position).wait_time / 3600 + ":" + (((resultElements.get(position).wait_time / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).wait_time / 60 % 60 + " hrs");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -12,6 +12,6 @@ class Leg{
     int arrival_start, departure_start, arrival_end, departure_end;
 }
 public class ResultContainer {
-    ArrayList<Leg>legs=new ArrayList<>();
+    ArrayList<Leg> legs = new ArrayList<>();
     int total_duration, wait_time;
 }

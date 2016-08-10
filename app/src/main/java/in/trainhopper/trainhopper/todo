@@ -2,3 +2,4 @@ check_TODO server crash on no result
 check_TODO loading wait screen
 TODO server meaningful log messages
 check_TODO main result view sorting options
+check_TODO shift sorting to server

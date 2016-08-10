@@ -29,9 +29,9 @@ public class JsonParser {
             jsonReader.beginObject();
             jsonReader.nextName();
             jsonReader.beginArray();
-            while(jsonReader.hasNext()) {
+            while (jsonReader.hasNext()) {
                 jsonReader.beginObject();
-                Leg temp=new Leg();
+                Leg temp = new Leg();
                 while (jsonReader.hasNext()) {
                     String name = jsonReader.nextName();
                     Log.v(MainActivity.TAG, name);
@@ -40,7 +40,7 @@ public class JsonParser {
                     if (name.equals("train_name"))
                         temp.train_name = jsonReader.nextString();
                     if (name.equals("train_class"))
-                        temp.train_class = jsonReader.nextString().replace("'","").replace("[","").replace("]","").trim();
+                        temp.train_class = jsonReader.nextString().replace("'", "").replace("[", "").replace("]", "").trim();
 
                     if (name.equals("day_def"))
                         temp.day_def = jsonReader.nextInt();
@@ -68,7 +68,7 @@ public class JsonParser {
                 jsonReader.endObject();
             }
             jsonReader.endArray();
-            while (jsonReader.hasNext()){
+            while (jsonReader.hasNext()) {
                 String name = jsonReader.nextName();
                 if (name.equals("total_duration"))
                     resultContainer.total_duration = jsonReader.nextInt();

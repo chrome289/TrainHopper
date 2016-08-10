@@ -32,11 +32,11 @@ public class SelectedOption extends Fragment {
 
         TextView textView = (TextView) fview.findViewById(R.id.textView9);
         textView.setText("Route from " + MainActivity.sourceName + " to " + MainActivity.destinationName);
-        if (element.legs.size()>1) {
+        if (element.legs.size() > 1) {
             textView.setText(textView.getText() + " via " + element.legs.get(0).station_id_end);
         }
         textView = (TextView) fview.findViewById(R.id.textView6);
-        textView.setText("Total Duration : "+element.total_duration/3600+":"+(((element.total_duration/60%60)<10)?"0":"")+ element.total_duration/60%60+" hrs");
+        textView.setText("Total Duration : " + element.total_duration / 3600 + ":" + (((element.total_duration / 60 % 60) < 10) ? "0" : "") + element.total_duration / 60 % 60 + " hrs");
 
         SelectedOptionAdapter detailResultListViewAdapter = new SelectedOptionAdapter(getActivity());
         ListView listView = (ListView) fview.findViewById(R.id.listView2);

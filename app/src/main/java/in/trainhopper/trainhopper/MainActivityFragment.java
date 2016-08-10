@@ -44,7 +44,7 @@ public class MainActivityFragment extends Fragment {
 
     static public View fview;
     static String TAG = "Message";
-    static boolean[] bool = {true, true, true, true, true, true, true, true, true};
+    static public boolean[] bool = {true, true, true, true, true, true, true, true, true};
 
     public MainActivityFragment() {
     }
@@ -84,6 +84,8 @@ public class MainActivityFragment extends Fragment {
                 editText = (EditText) fview.findViewById(R.id.destination);
                 MainActivity.destination = (String.valueOf(editText.getText()).split("\\(")[1]).split("\\)")[0].trim();
                 MainActivity.destinationName = String.valueOf(editText.getText()).split("\\(")[0].trim();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                MainActivity.date = simpleDateFormat.format(calendar.getTime());
 
                 RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.context);
                 // Request a string response from the provided URL.
@@ -127,8 +129,8 @@ public class MainActivityFragment extends Fragment {
                         params.put("from", MainActivity.source);
                         params.put("to", MainActivity.destination);
                         params.put("time", MainActivity.time);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                        params.put("date", simpleDateFormat.format(calendar.getTime()));
+                        params.put("date", MainActivity.date);
+                        params.put("sort", "1");
                         params.put("a1", String.valueOf(bool[0]));
                         params.put("a2", String.valueOf(bool[1]));
                         params.put("a3", String.valueOf(bool[2]));
@@ -204,9 +206,9 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-       // final Calendar calendar2 = Calendar.getInstance();
-        final Calendar calendar1=Calendar.getInstance();
-        Log.v(MainActivity.TAG,"hour"+calendar.HOUR+"--"+calendar.HOUR_OF_DAY);
+        // final Calendar calendar2 = Calendar.getInstance();
+        final Calendar calendar1 = Calendar.getInstance();
+        Log.v(MainActivity.TAG, "hour" + calendar.HOUR + "--" + calendar.HOUR_OF_DAY);
         final TextView textView2 = (TextView) fview.findViewById(R.id.time);
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,10 +218,10 @@ public class MainActivityFragment extends Fragment {
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
                         Log.v(MainActivity.TAG, i + "---" + i1);
                         final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
-                        MainActivity.time = String.valueOf(i*3600 + (i1*60));
+                        MainActivity.time = String.valueOf(i * 3600 + (i1 * 60));
                         Date dateObj = null;
                         try {
-                            dateObj = sdf.parse(i+":"+i1);
+                            dateObj = sdf.parse(i + ":" + i1);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

@@ -50,8 +50,8 @@ public class SelectedOptionAdapter extends BaseAdapter {
             textView = (TextView) convertView.findViewById(R.id.textView13);
             textView.setText(SelectedOption.element.legs.get(position).train_name);
             textView = (TextView) convertView.findViewById(R.id.textView14);
-            Log.v(MainActivity.TAG,position+"::::"+SelectedOption.element.legs.get(position).train_id);
-            textView.setText(SelectedOption.element.legs.get(position).train_id+"");
+            Log.v(MainActivity.TAG, position + "::::" + SelectedOption.element.legs.get(position).train_id);
+            textView.setText(SelectedOption.element.legs.get(position).train_id + "");
             textView = (TextView) convertView.findViewById(R.id.textView29);
             textView.setText(SelectedOption.element.legs.get(position).train_class);
 
@@ -66,22 +66,22 @@ public class SelectedOptionAdapter extends BaseAdapter {
             textView = (TextView) convertView.findViewById(R.id.textView15);
             textView.setText(SelectedOption.element.legs.get(position).station_name_start);
 
-            Date dateObj = sdf.parse(SelectedOption.element.legs.get(0).arrival_start/3600+":"+(((SelectedOption.element.legs.get(0).arrival_start/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).arrival_start/60%60);
+            Date dateObj = sdf.parse(SelectedOption.element.legs.get(position).arrival_start / 3600 + ":" + (((SelectedOption.element.legs.get(position).arrival_start / 60 % 60) < 10) ? "0" : "") + SelectedOption.element.legs.get(position).arrival_start / 60 % 60);
             textView = (TextView) convertView.findViewById(R.id.textView16);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
-            dateObj = sdf.parse(SelectedOption.element.legs.get(0).departure_start/3600+":"+(((SelectedOption.element.legs.get(0).departure_start/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).departure_start/60%60);
+            dateObj = sdf.parse(SelectedOption.element.legs.get(position).departure_start / 3600 + ":" + (((SelectedOption.element.legs.get(position).departure_start / 60 % 60) < 10) ? "0" : "") + SelectedOption.element.legs.get(position).departure_start / 60 % 60);
             textView = (TextView) convertView.findViewById(R.id.textView17);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
             textView = (TextView) convertView.findViewById(R.id.textView18);
             textView.setText(SelectedOption.element.legs.get(position).station_name_end);
 
-            dateObj = sdf.parse(SelectedOption.element.legs.get(0).arrival_end/3600+":"+(((SelectedOption.element.legs.get(0).arrival_end/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).arrival_end/60%60);
+            dateObj = sdf.parse(SelectedOption.element.legs.get(position).arrival_end / 3600 + ":" + (((SelectedOption.element.legs.get(position).arrival_end / 60 % 60) < 10) ? "0" : "") + SelectedOption.element.legs.get(position).arrival_end / 60 % 60);
             textView = (TextView) convertView.findViewById(R.id.textView19);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
-            dateObj = sdf.parse(SelectedOption.element.legs.get(0).departure_end/3600+":"+(((SelectedOption.element.legs.get(0).departure_end/60%60)<10)?"0":"")+ SelectedOption.element.legs.get(0).departure_end/60%60);
+            dateObj = sdf.parse(SelectedOption.element.legs.get(position).departure_end / 3600 + ":" + (((SelectedOption.element.legs.get(position).departure_end / 60 % 60) < 10) ? "0" : "") + SelectedOption.element.legs.get(position).departure_end / 60 % 60);
             textView = (TextView) convertView.findViewById(R.id.textView20);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
