@@ -7,16 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by Siddharth on 23-Jul-16.
- */
-public class ResultListViewAdapter extends BaseAdapter {
+class ResultListViewAdapter extends BaseAdapter {
 
     private Activity context;
     private ArrayList<ResultContainer> resultElements = new ArrayList<>();
@@ -45,23 +43,17 @@ public class ResultListViewAdapter extends BaseAdapter {
         try {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.result_card, null);
-            /*Element element = resultElements.get(position);
-            Elements elements1 = element.select("span.train");
-            Elements elements2 = element.select("span.station");
-            Elements elements3 = element.select("span.station-time");
-            Elements elements4 = element.select("span.train-name");
-            Elements elements5 = element.select("div.right");
-            Elements elements6 = element.select("span.station-name");
-            Elements elements7 = element.select("span.station-day");
-            Elements elements8= element.select("span.wait-time");*/
             TextView textView;
             if (resultElements.get(position).legs.size() == 1) {
-                textView = (TextView) convertView.findViewById(R.id.textView4);
-                textView.setVisibility(View.GONE);
+                LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.poof);
+                layout.setVisibility(View.GONE);
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView2);
                 imageView.setVisibility(View.GONE);
-                textView = (TextView) convertView.findViewById(R.id.textView24);
-                textView.setText("");
+
+                textView = (TextView) convertView.findViewById(R.id.textView36);
+                textView.setVisibility(View.GONE);
+                textView = (TextView) convertView.findViewById(R.id.textView37);
+                textView.setVisibility(View.GONE);
 
                 textView = (TextView) convertView.findViewById(R.id.textView33);
                 textView.setText("Day " + resultElements.get(position).legs.get(0).day_def);
@@ -71,8 +63,11 @@ public class ResultListViewAdapter extends BaseAdapter {
                 textView = (TextView) convertView.findViewById(R.id.textView24);
                 textView.setText(resultElements.get(position).legs.get(0).station_name_end);
 
+                textView = (TextView) convertView.findViewById(R.id.textView37);
+                textView.setText("  " + (resultElements.get(position).layover / 3600 + ":" + (((resultElements.get(position).layover / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).layover / 60 % 60 + " hrs"));
+
                 textView = (TextView) convertView.findViewById(R.id.textView33);
-                textView.setText("Day " + resultElements.get(position).legs.get(1).day_def);
+                textView.setText("Day " + resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).day_def);
 
             }
             textView = (TextView) convertView.findViewById(R.id.textView3);
@@ -100,9 +95,6 @@ public class ResultListViewAdapter extends BaseAdapter {
             dateObj = sdf.parse(resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 3600 + ":" + (((resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 60 % 60);
             textView = (TextView) convertView.findViewById(R.id.textView8);
             textView.setText(new SimpleDateFormat("h:mm a").format(dateObj));
-
-            textView = (TextView) convertView.findViewById(R.id.textView34);
-            textView.setText(resultElements.get(position).wait_time / 3600 + ":" + (((resultElements.get(position).wait_time / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).wait_time / 60 % 60 + " hrs");
 
         } catch (Exception e) {
             e.printStackTrace();

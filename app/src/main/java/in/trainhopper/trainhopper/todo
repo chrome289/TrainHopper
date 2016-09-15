@@ -3,3 +3,13 @@ check_TODO loading wait screen
 TODO server meaningful log messages
 check_TODO main result view sorting options
 check_TODO shift sorting to server
+_TODO train full names
+_TODO arrive by selection
+check_TODO direct only selection
+check_TODO station selection popup
+check_TODO default list of stations
+TODO colors
+check_TODO load more results
+check_TODO leg duration
+check_TODO icon
+
