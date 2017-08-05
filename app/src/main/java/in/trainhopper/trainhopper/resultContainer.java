@@ -8,7 +8,7 @@ class Leg {
     String station_id_start, station_id_end, station_name_start, station_name_end;
     int arrival_start, departure_start, arrival_end, departure_end, duration;
 
-    public Leg(Leg leg) {
+    Leg(Leg leg) {
         this.day_def = leg.day_def;
         this.train_id = leg.train_id;
         this.train_name = leg.train_name;
@@ -24,13 +24,13 @@ class Leg {
         this.duration = leg.duration;
     }
 
-    public Leg() {
+    Leg() {
     }
 }
 
-public class ResultContainer {
+class ResultContainer {
 
-    public ResultContainer(ResultContainer resultContainer) {
+    ResultContainer(ResultContainer resultContainer) {
         this.layover = resultContainer.layover;
         this.layover_def = resultContainer.layover_def;
         for (int x = 0; x < resultContainer.legs.size(); x++)
@@ -42,7 +42,7 @@ public class ResultContainer {
     ArrayList<Leg> legs = new ArrayList<>();
     int total_duration, wait_time, layover, layover_def;
 
-    public ResultContainer() {
+    ResultContainer() {
 
     }
 }

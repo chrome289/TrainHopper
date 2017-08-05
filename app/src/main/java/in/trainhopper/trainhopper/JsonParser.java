@@ -81,6 +81,7 @@ class JsonParser {
                         resultContainer.layover_def = jsonReader.nextInt();
                 }
                 jsonReader.endObject();
+                Log.v("nero",resultContainer.layover+"%"+resultContainer.layover_def);
                 resultContainerArrayList.add(resultContainer);
             }
             jsonReader.endArray();

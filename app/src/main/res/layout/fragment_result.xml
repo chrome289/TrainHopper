@@ -1,81 +1,74 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e0e0e0"
-    android:outlineProvider="bounds">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/layout1"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
+    android:background="#efefef"
     android:outlineProvider="bounds">
 
-
-    <ListView
+    <RelativeLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:divider="#00212121"
-        android:layout_alignParentTop="true"
-        android:clipToPadding="false"
-        android:dividerHeight="10dp"
-        android:padding="5dp"
-        android:outlineProvider="bounds"
-        android:layout_marginTop="10dp"
-        android:layout_alignBottom="@+id/moreButton"
-        android:paddingBottom="15dp"
-        android:smoothScrollbar="false" />
+        android:layout_height="match_parent"
+        android:outlineProvider="bounds">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/no_train_combination_available_for_this_date_or_these_stations"
-        android:id="@+id/textView30"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="15dp"
-        android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/result_card" />
+
+        <TextView
+            android:id="@+id/textView30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/no_train_combination_available_for_this_date_or_these_stations"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/moreButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="More results"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/layout1"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
         android:src="@mipmap/ic_sort_white_48dp"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/listView"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/fab_margin" />
+        app:fabSize="normal" />
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Load more results"
-        android:id="@+id/moreButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" />
-</RelativeLayout>
-<RelativeLayout
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:gravity="center"
-android:id="@+id/layout2"
-android:visibility="gone">
+    <RelativeLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Loading ..."
-    android:id="@+id/textView31"
-    android:gravity="center"
-    android:textSize="30sp"
-    android:padding="10dp" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Loading ..."
+            android:textSize="30sp" />
+    </RelativeLayout>
 </RelativeLayout>

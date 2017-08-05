@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -48,7 +49,7 @@ import java.util.Map;
 
 public class MainActivityFragment extends Fragment implements View.OnClickListener {
 
-    private static View fview;
+    private View fview;
     private static String TAG = "Message";
     static public RelativeLayout popup;
     static public boolean[] bool = {true, true, true, true, true, true, true, true, true};
@@ -88,7 +89,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                     relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout2);
                     relativeLayout.setVisibility(View.VISIBLE);
 
-                    RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.context);
+                    RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, MainActivity.IP+"/resultsdroid",
                             new Response.Listener<String>() {
@@ -111,7 +112,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                                     Log.v(TAG, "stored in arraylist");
 
                                     FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                                    fragmentTransaction.replace(R.id.frame, MainActivity.resultFragment, "result").addToBackStack(null);
+                                    fragmentTransaction.replace(R.id.frame, new ResultFragment(), "result").addToBackStack("sc2");
                                     fragmentTransaction.commit();
                                 }
                             }, new Response.ErrorListener() {
@@ -129,8 +130,8 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                             Map<String, String> params = new HashMap<>();
                             params.put("from", MainActivity.source);
                             params.put("to", MainActivity.destination);
-                            params.put("timeA", MainActivity.timeA);
-                            params.put("timeB", MainActivity.timeB);
+                            params.put("time", MainActivity.timeA);
+                           // params.put("timeB", MainActivity.timeB);
                             params.put("date", MainActivity.date);
                             params.put("direct", String.valueOf(MainActivity.checked));
                             params.put("sort", "1");
@@ -181,7 +182,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.context, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         calendar.set(i, i1, i2);
@@ -199,7 +200,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainActivity.context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Select Classes");
                 builder.setMultiChoiceItems(R.array.class_list, bool, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -255,7 +256,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.context, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
                         Log.v(MainActivity.TAG, i + "---" + i1);
