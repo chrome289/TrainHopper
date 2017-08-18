@@ -1,0 +1,162 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/advancedOptions"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentRight="false"
+    android:layout_gravity="right"
+    android:background="#fafafa"
+    android:elevation="2dp"
+    android:paddingRight="12dp">
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/ic_clear_black_36dp" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageButton6"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:text="Types of Routes"
+        android:textColor="@color/primary_dark"
+        android:textSize="24sp" />
+
+    <CheckBox
+        android:id="@+id/checkBox10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView23"
+        android:layout_below="@+id/textView23"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Show only Direct Routes"
+        android:textColor="#333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView23"
+        android:layout_below="@+id/checkBox10"
+        android:text="Preferred Classes"
+        android:textColor="@color/primary_dark"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView22"
+        android:layout_below="@+id/textView22"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="0"
+            android:text="1st AC"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="1"
+            android:text="2nd AC"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="2"
+            android:text="3rd AC"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="3"
+            android:text="Sleeper"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="4"
+            android:text="Chair Car"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="5"
+            android:text="Second Class"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="6"
+            android:text="First Class"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="7"
+            android:text="Economy Class"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/checkBox9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:contentDescription="8"
+            android:text="General/Unreserved"
+            android:textColor="#333"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

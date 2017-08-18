@@ -9,14 +9,14 @@ android {
             storePassword '28julius9'
         }
     }
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '25.0.3'
     defaultConfig {
         applicationId "in.trainhopper.trainhopper"
         minSdkVersion 17
-        targetSdkVersion 25
-        versionCode 4
-        versionName "0.3b"
+        targetSdkVersion 26
+        versionCode 5
+        versionName "0.4b"
         signingConfig signingConfigs.config
     }
     buildTypes {
@@ -36,7 +36,6 @@ android {
     productFlavors {
     }
     dexOptions {
-        incremental true
     }
 }
 

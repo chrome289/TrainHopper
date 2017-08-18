@@ -6,53 +6,123 @@
     android:background="#efefef"
     android:outlineProvider="bounds">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <RelativeLayout
+        android:id="@+id/rel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="8dp">
 
-        <TextView
-            android:id="@+id/textView21"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/l"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right|center_vertical"
-            android:padding="4dp"
-            android:text="Karuto"
-            android:textColor="#1b67b3"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_weight="0"
-            app:srcCompat="@mipmap/ic_arrow_forward_black_48dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="This route has no stops"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linNo2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/ic_priority_high_black_24dp" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="Layover of 3:45 HRS"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:padding="4dp"
-            android:text="Linati"
-            android:textColor="#1b67b3"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/l"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/l"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:paddingRight="8dp"
+                android:text="Total Duration" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/recyclerView"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/textView25"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/l"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:paddingRight="8dp"
+                android:text="09:45 HRS"
+                android:textColor="@color/primary_dark"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/result_details_card"
-        android:layout_below="@+id/linearLayout" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rel"
+        tools:listitem="@layout/result_details_card" />
 
 </RelativeLayout>

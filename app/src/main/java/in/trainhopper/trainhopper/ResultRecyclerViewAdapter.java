@@ -3,7 +3,6 @@ package in.trainhopper.trainhopper;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +38,17 @@ class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewA
                 holder.textView.setVisibility(View.GONE);
                 holder.textView6.setText(resultElements.get(position).legs.get(0).train_name);
             } else {
-                resultElements.get(position).layover = resultElements.get(position).legs.get(1).arrival_start
-                        - resultElements.get(position).legs.get(0).arrival_end;
-                Log.v("neero", resultElements.get(position).layover + "#" + resultElements.get(position).legs.get(0).station_name_end);
+                resultElements.get(position).layover = resultElements.get(position).total_duration
+                        - (resultElements.get(position).legs.get(0).duration+resultElements.get(position).legs.get(1).duration);
+                /*Log.v("Nero",resultElements.get(position).legs.get(0).arrival_start+" "+
+                        resultElements.get(position).legs.get(0).departure_start+" "+
+                        resultElements.get(position).legs.get(0).arrival_end+" "+
+                        resultElements.get(position).legs.get(0).departure_end+" "+
+                        resultElements.get(position).legs.get(1).arrival_start+" "+
+                        resultElements.get(position).legs.get(1).departure_start+" "+
+                        resultElements.get(position).legs.get(1).arrival_end+" "+
+                        resultElements.get(position).legs.get(1).departure_end+" ");*/
+               // Log.v("neero", resultElements.get(position).layover + "#" + resultElements.get(position).legs.get(0).station_name_end);
                 holder.textView6.setText(resultElements.get(position).legs.get(0).train_name
                         + " &" + resultElements.get(position).legs.get(1).train_name);
                 holder.textView.setText("via " + toCamelCase(resultElements.get(position).legs.get(0).station_name_end));
@@ -103,7 +110,7 @@ class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewA
                 public void onClick(View v) {
                     SelectedOption.selectedOptionID = id;
                     SelectedOption.element = new ResultContainer(JsonParser.resultContainerArrayList.get(id));
-                    Log.v(MainActivity.TAG, "bub" + JsonParser.resultContainerArrayList.get(id).legs.size() + "");
+                    //Log.v(MainActivity.TAG, "bub" + JsonParser.resultContainerArrayList.get(id).legs.size() + "");
                     FragmentTransaction fragmentTransaction = ((Activity) v.getContext()).getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame,new SelectedOption(), "select").addToBackStack("sc3");
                     fragmentTransaction.commit();

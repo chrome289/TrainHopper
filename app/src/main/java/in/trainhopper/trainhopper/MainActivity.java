@@ -5,33 +5,35 @@ import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.View;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     static final public String IP="http://192.168.1.6:3001";
+    public static long dateMILLIs;
     Context context;
     static public String TAG = "Nero", source = "", destination = "", sourceName = "", destinationName = "", timeA = "0", timeB = "0", date = "";
     static boolean checked = false;
+    Toolbar toolbar;
 
     @Override
     public void onBackPressed() {
-        if (MainActivityFragment.popup != null && MainActivityFragment.popup.getVisibility() == View.VISIBLE) {
-            MainActivityFragment.popup.setVisibility(View.GONE);
-        } else {
-
-            FragmentManager fm = getFragmentManager();
-            if (fm.getBackStackEntryCount() != 1)
-                fm.popBackStack();
-            else
-                super.onBackPressed();
-        }
+        FragmentManager fm = getFragmentManager();
+        //Log.v("nero",fm.getBackStackEntryCount()+"");
+        if(MainActivityFragment.isAdvancedOptionsOpen){
+            MainActivityFragment.closeAdvancedOptions();
+        }else if (fm.getBackStackEntryCount() > 1)
+            fm.popBackStack();
+        else
+            super.onBackPressed();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -42,15 +44,28 @@ public class MainActivity extends AppCompatActivity {
         context = this;
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, new MainActivityFragment(), "search").addToBackStack("sc1");
+        fragmentTransaction.replace(R.id.frame, new MainActivityFragment());
         fragmentTransaction.commit();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("  TrainHopper");
-        toolbar.setTitleTextColor(Color.WHITE);
+
+         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    static String formatDate1(long date){
+        String str="";
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMMM dd, yyyy",Locale.US);
+        Date date1=new Date(date);
+        str=simpleDateFormat.format(date1);
+        return str;
     }
 
     @Override
@@ -59,4 +74,5 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 }
