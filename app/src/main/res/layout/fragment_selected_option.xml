@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#efefef"
     android:outlineProvider="bounds">
 
@@ -29,7 +29,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -57,7 +56,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -92,9 +90,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_toRightOf="@+id/l"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:paddingLeft="0dp"
                 android:paddingRight="8dp"
                 android:text="Total Duration" />
 
@@ -102,13 +100,10 @@
                 android:id="@+id/textView24"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/recyclerView"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/textView25"
                 android:layout_gravity="center"
-                android:layout_toRightOf="@+id/l"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:paddingLeft="0dp"
                 android:paddingRight="8dp"
                 android:text="09:45 HRS"
                 android:textColor="@color/primary_dark"

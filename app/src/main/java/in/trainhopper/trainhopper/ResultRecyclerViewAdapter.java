@@ -15,11 +15,10 @@ import java.util.Date;
 
 class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewAdapter.ViewHolder> {
 
-    private Activity context;
+    // --Commented out by Inspection (19-08-2017 05:35 PM):private Activity context;
     private ArrayList<ResultContainer> resultElements = new ArrayList<>();
 
     ResultRecyclerViewAdapter(Activity context, ArrayList<ResultContainer> resultElements) {
-        this.context = context;
         this.resultElements = resultElements;
     }
 
@@ -81,7 +80,7 @@ class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewA
         return resultElements.size();
     }
 
-    String toCamelCase(String s){
+    private String toCamelCase(String s) {
         String str="";
         int a=0;
         while(a<s.length()){
@@ -99,8 +98,8 @@ class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewA
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, textView2, textView3, textView4,textView5,textView6;
-        LinearLayout linearLayout;
+        final TextView textView, textView2, textView3, textView4, textView5, textView6;
+        final LinearLayout linearLayout;
         int id=0;
 
         public ViewHolder(View itemView) {
@@ -116,12 +115,12 @@ class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewA
                     fragmentTransaction.commit();
                 }
             });
-            textView = (TextView) itemView.findViewById(R.id.textView7);
-            textView2 = (TextView) itemView.findViewById(R.id.textView2);
-            textView3 = (TextView) itemView.findViewById(R.id.textView3);
-            textView4 = (TextView) itemView.findViewById(R.id.textView4);
-            textView5 = (TextView) itemView.findViewById(R.id.textView8);
-            textView6 = (TextView) itemView.findViewById(R.id.textView9);
+            textView = itemView.findViewById(R.id.textView7);
+            textView2 = itemView.findViewById(R.id.textView2);
+            textView3 = itemView.findViewById(R.id.textView3);
+            textView4 = itemView.findViewById(R.id.textView4);
+            textView5 = itemView.findViewById(R.id.textView8);
+            textView6 = itemView.findViewById(R.id.textView9);
             /*textView6 = (TextView) itemView.findViewById(R.id.textView3);
             textView7 = (TextView) itemView.findViewById(R.id.textView5);
             textView8 = (TextView) itemView.findViewById(R.id.textView22);
@@ -130,7 +129,7 @@ class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewA
             textView11 = (TextView) itemView.findViewById(R.id.textView7);
             textView12 = (TextView) itemView.findViewById(R.id.textView2);
             textView13 = (TextView) itemView.findViewById(R.id.textView8);*/
-            linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
+            linearLayout = itemView.findViewById(R.id.linearLayout);
             /*imageView= (ImageView) itemView.findViewById(R.id.imageView2);*/
         }
     }

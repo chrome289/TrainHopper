@@ -1,11 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/advancedOptions"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_alignParentRight="false"
     android:layout_gravity="right"
     android:background="#fafafa"
     android:elevation="2dp"
+    android:paddingLeft="0dp"
     android:paddingRight="12dp">
 
     <ImageButton

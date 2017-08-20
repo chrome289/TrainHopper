@@ -2,22 +2,25 @@ package in.trainhopper.trainhopper;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -30,8 +33,9 @@ public class ResultFragment extends Fragment {
 
     private View fview;
     private int checkedItemId = 0;
-    private RecyclerView recyclerView;
     private ResultRecyclerViewAdapter resultRecyclerViewAdapter;
+
+    private boolean mLoading = false;
 
     public ResultFragment() {
         // Required empty public constructor
@@ -43,19 +47,20 @@ public class ResultFragment extends Fragment {
         // Inflate the layout for this fragment
         if (fview == null)
             fview = inflater.inflate(R.layout.fragment_result, container, false);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(MainActivity.sourceName + " TO " + MainActivity.destinationName);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(MainActivity.sourceName+" TO "+MainActivity.destinationName);
-
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(MainActivity.formatDate1(MainActivity.dateMILLIs));
-
+            actionBar.setSubtitle(MainActivity.formatDate1(MainActivity.date));
+        }
         if (JsonParser.resultContainerArrayList.size() == 0) {
-            TextView textView2 = (TextView) fview.findViewById(R.id.textView30);
+            TextView textView2 = fview.findViewById(R.id.textView30);
             textView2.setVisibility(View.VISIBLE);
         } else {
-            TextView textView2 = (TextView) fview.findViewById(R.id.textView30);
+            TextView textView2 = fview.findViewById(R.id.textView30);
             textView2.setVisibility(View.INVISIBLE);
         }
-        FloatingActionButton button = (FloatingActionButton) fview.findViewById(R.id.fab2);
+        FloatingActionButton button = fview.findViewById(R.id.fab2);
         checkedItemId = 0;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +71,7 @@ public class ResultFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         checkedItemId = i;
-                        //Log.v(MainActivity.TAG, String.valueOf(checkedItemId));
-
-                        RelativeLayout relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout1);
-                        relativeLayout.setAlpha(0.3f);
-                        relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout2);
-                        relativeLayout.setVisibility(View.VISIBLE);
+                        Log.v(MainActivity.TAG, String.valueOf(checkedItemId));
 
                         sortListView();
                         dialogInterface.dismiss();
@@ -81,17 +81,12 @@ public class ResultFragment extends Fragment {
             }
         });
 
-        recyclerView = (RecyclerView) fview.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = fview.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         resultRecyclerViewAdapter = new ResultRecyclerViewAdapter(getActivity(), JsonParser.resultContainerArrayList);
         recyclerView.setAdapter(resultRecyclerViewAdapter);
 
         RecyclerView.OnScrollListener onScrollListener=new RecyclerView.OnScrollListener() {
-            boolean mLoading=false;
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -109,36 +104,14 @@ public class ResultFragment extends Fragment {
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-
-                                        //Log.v(MainActivity.TAG, response);
-                                        //JsonParser.resultContainerArrayList.clear();
-                                        try {
-                                            if (new JsonParser().parseResponse2(getActivity(), response) == 1) {
-                                                // button1.setEnabled(false);
-                                                //Log.v("TAG", JsonParser.resultContainerArrayList.size() + "");
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                        //Log.v(MainActivity.TAG, "stored in arraylist");
-                                        //resultRecyclerViewAdapter = new ResultRecyclerViewAdapter(getActivity(), JsonParser.resultContainerArrayList);
-                                        //listView.setAdapter(resultRecyclerViewAdapter);
-                                        resultRecyclerViewAdapter.notifyDataSetChanged();
-                                        mLoading=false;
-
-                                        RelativeLayout relativeLayout=(RelativeLayout)fview.findViewById(R.id.layout2);
-                                        relativeLayout.setVisibility(View.GONE);
+                                        new fetchMoreResults().execute(response);
                                 }
                                 }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                RelativeLayout relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout1);
-                                relativeLayout.setAlpha(1.0f);
                                // Log.v(MainActivity.TAG, error.toString());
                                 mLoading=false;
-
-                                relativeLayout=(RelativeLayout)fview.findViewById(R.id.layout2);
-                                relativeLayout.setVisibility(View.GONE);
+                                removeLoadingScreen();
                             }
                         }) {
                             @Override
@@ -152,7 +125,7 @@ public class ResultFragment extends Fragment {
                         };
                         requestQueue.add(stringRequest);
                         mLoading=true;
-                        RelativeLayout relativeLayout=(RelativeLayout)fview.findViewById(R.id.layout2);
+                        RelativeLayout relativeLayout = fview.findViewById(R.id.layout2);
                         relativeLayout.setVisibility(View.VISIBLE);
                     }
                 }
@@ -168,35 +141,20 @@ public class ResultFragment extends Fragment {
     private void sortListView() {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, MainActivity.IP+"/resultsdroid",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, MainActivity.IP + "/resultsdroid",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        //Log.v(MainActivity.TAG, response);
-                        JsonParser.resultContainerArrayList.clear();
-                        try {
-                            new JsonParser().parseResponse1(getActivity(),response);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        RelativeLayout relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout1);
-                        relativeLayout.setAlpha(1.0f);
-                        relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout2);
-                        relativeLayout.setVisibility(View.INVISIBLE);
-                        //Log.v(MainActivity.TAG, "stored in arraylist");
-                        resultRecyclerViewAdapter = new ResultRecyclerViewAdapter(getActivity(), JsonParser.resultContainerArrayList);
-                        recyclerView.setAdapter(resultRecyclerViewAdapter);
-                        resultRecyclerViewAdapter.notifyDataSetChanged();
+                        // Log.v(MainActivity.TAG, String.valueOf(response.length()));
+                        new parseResults().execute(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                RelativeLayout relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout1);
-                relativeLayout.setAlpha(1.0f);
-                relativeLayout = (RelativeLayout) fview.findViewById(R.id.layout2);
-                relativeLayout.setVisibility(View.INVISIBLE);
-                error.printStackTrace();//Log.v(MainActivity.TAG, error.toString());
+                removeLoadingScreen();
+                //Log.v(MainActivity.TAG, error.toString());
+                error.printStackTrace();
             }
         }) {
             @Override
@@ -204,41 +162,93 @@ public class ResultFragment extends Fragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("from", MainActivity.source);
                 params.put("to", MainActivity.destination);
-                params.put("time", MainActivity.timeA);
-                params.put("sort", String.valueOf(checkedItemId + 1));
-                params.put("date", MainActivity.date);
+                params.put("time", String.valueOf(MainActivity.date.getTime()));
+                // params.put("timeB", MainActivity.timeB);
                 params.put("direct", String.valueOf(MainActivity.checked));
-                params.put("a1", String.valueOf(MainActivityFragment.bool[0]));
-                params.put("a2", String.valueOf(MainActivityFragment.bool[1]));
-                params.put("a3", String.valueOf(MainActivityFragment.bool[2]));
-                params.put("sl", String.valueOf(MainActivityFragment.bool[3]));
-                params.put("cc", String.valueOf(MainActivityFragment.bool[4]));
-                params.put("s2", String.valueOf(MainActivityFragment.bool[5]));
-                params.put("e3", String.valueOf(MainActivityFragment.bool[6]));
-                params.put("fc", String.valueOf(MainActivityFragment.bool[7]));
-                params.put("gen", String.valueOf(MainActivityFragment.bool[8]));
+                params.put("sort", String.valueOf(checkedItemId + 1));
+
+                String classes = "";
+                classes += (MainActivity.bool[0]) ? ",a1," : "";
+                classes += (MainActivity.bool[1]) ? ",a2," : "";
+                classes += (MainActivity.bool[2]) ? ",a3," : "";
+                classes += (MainActivity.bool[3]) ? ",sl," : "";
+                classes += (MainActivity.bool[4]) ? ",cc," : "";
+                classes += (MainActivity.bool[5]) ? ",s2," : "";
+                classes += (MainActivity.bool[6]) ? ",e3," : "";
+                classes += (MainActivity.bool[7]) ? ",fc," : "";
+                classes += (MainActivity.bool[8]) ? ",gen," : "";
+                params.put("classes", '[' + classes.substring(1, classes.length() - 1) + ']');
                 return params;
             }
         };
-        stringRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 10000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 1;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-               error.printStackTrace(); //Log.v(MainActivity.TAG, "volley timeout");
-            }
-        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         // Add the request to the RequestQueue.
         requestQueue.add(stringRequest);
-        requestQueue.start();
+        RelativeLayout relativeLayout = fview.findViewById(R.id.layout2);
+        relativeLayout.setVisibility(View.VISIBLE);
+    }
 
+    private void removeLoadingScreen() {
+        RelativeLayout relativeLayout = fview.findViewById(R.id.layout2);
+        relativeLayout.setVisibility(View.GONE);
+    }
+
+    private class fetchMoreResults extends AsyncTask<String, Integer, Integer> {
+        @Override
+        protected Integer doInBackground(String... strings) {
+
+            //Log.v(MainActivity.TAG, response);
+            //JsonParser.resultContainerArrayList.clear();
+            try {
+                new JsonParser().parseResponse2(getActivity(), strings[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //Log.v(MainActivity.TAG, "stored in arraylist");
+            //resultRecyclerViewAdapter = new ResultRecyclerViewAdapter(getActivity(), JsonParser.resultContainerArrayList);
+            //listView.setAdapter(resultRecyclerViewAdapter);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    resultRecyclerViewAdapter.notifyDataSetChanged();
+                    mLoading = false;
+
+                    RelativeLayout relativeLayout = fview.findViewById(R.id.layout2);
+                    relativeLayout.setVisibility(View.GONE);
+                }
+            });
+            return 0;
+        }
+
+        protected void onProgressUpdate(Integer... p) {
+
+        }
+
+        protected void onPostExecute(Integer p) {
+
+        }
+    }
+
+    class parseResults extends AsyncTask<String, Integer, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            JsonParser.resultContainerArrayList.clear();
+            try {
+                new JsonParser().parseResponse1(getActivity(), strings[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+        protected void onProgressUpdate(Integer... p) {
+
+        }
+
+        protected void onPostExecute(Integer p) {
+            resultRecyclerViewAdapter.notifyDataSetChanged();
+            removeLoadingScreen();
+        }
     }
 }

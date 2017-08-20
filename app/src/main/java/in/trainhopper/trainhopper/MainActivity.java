@@ -4,7 +4,6 @@ package in.trainhopper.trainhopper;
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,19 +17,28 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     static final public String IP="http://192.168.1.6:3001";
-    public static long dateMILLIs;
-    Context context;
-    static public String TAG = "Nero", source = "", destination = "", sourceName = "", destinationName = "", timeA = "0", timeB = "0", date = "";
+    // --Commented out by Inspection (19-08-2017 05:35 PM):private Context context;
+    static public final String TAG = "Nero";
+    static public String source = "";
+    static public String destination = "";
+    static public String sourceName = "";
+    static public String destinationName = "";
+    static public boolean[] bool = {true, true, true, true, true, true, true, true, true};
+    static Date date = null;
     static boolean checked = false;
-    Toolbar toolbar;
+
+    static String formatDate1(Date date) {
+        String str;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+        str = simpleDateFormat.format(date);
+        return str;
+    }
 
     @Override
     public void onBackPressed() {
         FragmentManager fm = getFragmentManager();
         //Log.v("nero",fm.getBackStackEntryCount()+"");
-        if(MainActivityFragment.isAdvancedOptionsOpen){
-            MainActivityFragment.closeAdvancedOptions();
-        }else if (fm.getBackStackEntryCount() > 1)
+        if (fm.getBackStackEntryCount() > 1)
             fm.popBackStack();
         else
             super.onBackPressed();
@@ -41,14 +49,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context = this;
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, new MainActivityFragment());
         fragmentTransaction.commit();
 
 
-         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -58,14 +65,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    static String formatDate1(long date){
-        String str="";
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMMM dd, yyyy",Locale.US);
-        Date date1=new Date(date);
-        str=simpleDateFormat.format(date1);
-        return str;
     }
 
     @Override

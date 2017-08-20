@@ -3,6 +3,7 @@ package in.trainhopper.trainhopper;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,29 +15,31 @@ import android.widget.TextView;
 
 
 public class SelectedOption extends Fragment {
-    private View fview;
-    static public int selectedOptionID;
     static public ResultContainer element;
+    static int selectedOptionID;
+    private View fview;
 
     public SelectedOption() {
         // Required empty public constructor
     }
 
-    String toCamelCase(String s) {
-        String str = "";
-        int a = 0;
-        while (a < s.length()) {
-            if (s.charAt(a) == ' ') {
-                str = str.concat(String.valueOf(" " + s.charAt(a + 1)).toUpperCase());
-                a++;
-            } else if (a == 0)
-                str = str.concat(String.valueOf(s.charAt(a)).toUpperCase());
-            else
-                str = str.concat(String.valueOf(s.charAt(a)).toLowerCase());
-            a++;
-        }
-        return str;
-    }
+// --Commented out by Inspection START (19-08-2017 05:35 PM):
+//    String toCamelCase(String s) {
+//        String str = "";
+//        int a = 0;
+//        while (a < s.length()) {
+//            if (s.charAt(a) == ' ') {
+//                str = str.concat(String.valueOf(" " + s.charAt(a + 1)).toUpperCase());
+//                a++;
+//            } else if (a == 0)
+//                str = str.concat(String.valueOf(s.charAt(a)).toUpperCase());
+//            else
+//                str = str.concat(String.valueOf(s.charAt(a)).toLowerCase());
+//            a++;
+//        }
+//        return str;
+//    }
+// --Commented out by Inspection STOP (19-08-2017 05:35 PM)
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,8 +47,9 @@ public class SelectedOption extends Fragment {
         // Inflate the layout for this fragment
         if (fview == null)
             fview = inflater.inflate(R.layout.fragment_selected_option, container, false);
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("via " + element.legs.get(0).station_name_end);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setSubtitle("via " + element.legs.get(0).station_name_end);
 
         TextView textView;
         RecyclerView recyclerView = fview.findViewById(R.id.recyclerView);

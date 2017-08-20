@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,13 +13,7 @@ class SelectedOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Date date;
 
     SelectedOptionAdapter() {
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            date= simpleDateFormat.parse(MainActivity.date);
-            date=new Date(date.getTime()+(SelectedOption.element.legs.get(0).arrival_start*1000));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        date = MainActivity.date;
     }
 
     @Override
@@ -39,8 +32,7 @@ class SelectedOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (SelectedOption.element.legs.get(position) == null) {
                 ViewHolder2 holder=(ViewHolder2)holderTemp;
                 holder.textView2.setText(SelectedOption.element.layover / 3600 + ":" + (((SelectedOption.element.layover / 60 % 60) < 10) ? "0" : "") + SelectedOption.element.layover / 60 % 60 + " HRS");
-                Date date1=new Date(date.getTime()+(SelectedOption.element.layover*1000));
-                date=date1;
+                date = new Date(date.getTime() + (SelectedOption.element.layover * 1000));
             } else {
                 ViewHolder holder=(ViewHolder)holderTemp;
                 holder.textView11.setText(SelectedOption.element.legs.get(position).station_id_start);
@@ -65,8 +57,7 @@ class SelectedOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 holder.textView.setText(SelectedOption.element.legs.get(position).duration / 3600 + ":" + (((SelectedOption.element.legs.get(position).duration / 60 % 60) < 10) ? "0" : "") + SelectedOption.element.legs.get(position).duration / 60 % 60 + " HRS");
 
-                Date date1=new Date(date.getTime()+(SelectedOption.element.legs.get(position).duration*1000));
-                date=date1;
+                date = new Date(date.getTime() + (SelectedOption.element.legs.get(position).duration * 1000));
                 holder.textView17.setText(simpleDateFormat1.format(date));
             }
         } catch (Exception e) {
@@ -108,7 +99,6 @@ class SelectedOptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             textView9 = itemView.findViewById(R.id.textView18);
             textView10 = itemView.findViewById(R.id.textView11);
             textView11= itemView.findViewById(R.id.textView12);
-            textView12= itemView.findViewById(R.id.textView38);
             textView13= itemView.findViewById(R.id.textView13);
             textView17= itemView.findViewById(R.id.textView17);
 

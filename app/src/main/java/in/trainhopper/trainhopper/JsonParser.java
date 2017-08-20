@@ -2,23 +2,26 @@ package in.trainhopper.trainhopper;
 
 import android.content.Context;
 import android.util.JsonReader;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 class JsonParser {
-    static ArrayList<ResultContainer> resultContainerArrayList = new ArrayList<>();
+    static final ArrayList<ResultContainer> resultContainerArrayList = new ArrayList<>();
     static long resultQueryID;
     static int resultCurrentPage;
 
-    int parseResponse1(Context context, String response) throws IOException {
-
+    void parseResponse1(Context context, String response) throws IOException {
+        Calendar c = Calendar.getInstance();
+        Log.v("nero", c.getTimeInMillis() + "");
         JsonReader jsonReader = new JsonReader(new InputStreamReader(new ByteArrayInputStream(response.getBytes()), "UTF-8"));
         int result = readJsonArray1(context, jsonReader);
         jsonReader.close();
-        return result;
+        Log.v("nero", c.getTimeInMillis() + "");
     }
 
     private int readJsonArray1(Context context, JsonReader jsonReader) {
@@ -94,6 +97,8 @@ class JsonParser {
                         resultContainer.wait_time = jsonReader.nextInt();
                     if (name.equals("layover"))
                         resultContainer.layover = jsonReader.nextInt();
+                    if (name.equals("layoverd"))
+                        jsonReader.nextInt();
                     if (name.equals("layoverDef"))
                         resultContainer.layover_def = jsonReader.nextInt();
                 }
@@ -191,12 +196,14 @@ class JsonParser {
                         resultContainer.wait_time = jsonReader.nextInt();
                     if (name.equals("layover"))
                         resultContainer.layover = jsonReader.nextInt();
+                    if (name.equals("layoverd"))
+                        jsonReader.nextInt();
                     if (name.equals("layoverDef"))
                         resultContainer.layover_def = jsonReader.nextInt();
                 }
                 jsonReader.endObject();
                // Log.v("nero",resultContainer.layover+"%"+resultContainer.layover_def);
-                resultContainerArrayList.add(resultContainer);
+                resultContainerArrayList.add(resultContainerArrayList.size(), resultContainer);
             }
             jsonReader.endArray();
             //Log.v("nero","query id  "+resultQueryID);
