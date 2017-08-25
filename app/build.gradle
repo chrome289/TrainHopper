@@ -15,22 +15,24 @@ android {
         applicationId "in.trainhopper.trainhopper"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 5
-        versionName "0.4b"
+        versionCode 8
+        versionName "1.1"
         signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
             zipAlignEnabled true
+            proguardFile 'C:/Users/Sid/AndroidStudioProjects/TrainHopper/app/proguard-rules.pro'
         }
         debug {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             signingConfig signingConfigs.config
+            proguardFile 'C:/Users/Sid/AndroidStudioProjects/TrainHopper/app/proguard-rules.pro'
         }
     }
     productFlavors {

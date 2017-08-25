@@ -25,7 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:fontFamily="@font/dosis"
                 android:gravity="bottom|center_horizontal"
                 android:text="TRAINHOPPER"
                 android:textColor="#616161"
@@ -36,7 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:fontFamily="@font/dosis3"
                 android:gravity="top|center_horizontal"
                 android:paddingTop="4dp"
                 android:text="Route Combinations to your destination"
@@ -139,7 +137,7 @@
                         android:paddingLeft="4dp"
                         android:paddingRight="0dp"
                         android:text="August 16, 2016"
-                        android:textColor="@color/primary" />
+                        android:textColor="@color/accent" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -161,7 +159,7 @@
                         android:paddingLeft="4dp"
                         android:paddingRight="0dp"
                         android:text="09:45 AM"
-                        android:textColor="@color/primary" />
+                        android:textColor="@color/accent" />
 
                 </LinearLayout>
 
@@ -192,6 +190,32 @@
                     android:layout_weight="0"
                     android:text="Advanced Options"
                     android:textColor="@color/primary_dark" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_weight="0"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0"
+                        app:srcCompat="@drawable/ic_thumb_up_black_24dp" />
+
+                    <Button
+                        android:id="@+id/button"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0"
+                        android:text="Donate" />
+                </LinearLayout>
 
             </LinearLayout>
 

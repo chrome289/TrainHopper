@@ -8013,7 +8013,7 @@
 
     <array name="sorting_options">
         <item>Total Duration</item>
-        <item>Arrival Time(Source)</item>
+        <!--<item>Arrival Time(Source)</item>-->
         <item>Arrival Time(Destination)</item>
         <item>Shortest Wait Time</item>
         <!--<item>Shortest Layover</item>-->

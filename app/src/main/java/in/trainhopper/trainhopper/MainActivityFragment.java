@@ -5,8 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +20,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -47,6 +51,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 
 public class MainActivityFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
@@ -54,6 +59,7 @@ public class MainActivityFragment extends Fragment implements CompoundButton.OnC
     // --Commented out by Inspection (19-08-2017 05:35 PM):private static String TAG = "Message";
     // --Commented out by Inspection (19-08-2017 05:35 PM):RelativeLayout popup;
     static boolean isAdvancedOptionsOpen = false;
+    ParseResults parseResults = new ParseResults();
     private View fview;
     private DrawerLayout drawerLayout;
     private Calendar calendar;
@@ -61,6 +67,11 @@ public class MainActivityFragment extends Fragment implements CompoundButton.OnC
     public MainActivityFragment() {
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        parseResults.cancel(true);
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -74,8 +85,12 @@ public class MainActivityFragment extends Fragment implements CompoundButton.OnC
             actionBar.setSubtitle("");
             actionBar.hide();
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.BLACK);
+        }
     }
-
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -121,7 +136,8 @@ public class MainActivityFragment extends Fragment implements CompoundButton.OnC
                                 public void onResponse(String response) {
                                     // Display the first 500 characters of the response string.
                                     // Log.v(MainActivity.TAG, String.valueOf(response.length()));
-                                    new parseResults().execute(response);
+                                    parseResults = new ParseResults();
+                                    parseResults.execute(response);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -140,7 +156,8 @@ public class MainActivityFragment extends Fragment implements CompoundButton.OnC
                             // params.put("timeB", MainActivity.timeB);
                             params.put("direct", String.valueOf(MainActivity.checked));
                             params.put("sort", "1");
-
+                            params.put("utcoffset", TimeZone.getDefault().getOffset(MainActivity.date.getTime()) + "");
+                            Log.v("nero", TimeZone.getDefault().getOffset(MainActivity.date.getTime()) + " offset");
                             String classes = "";
                             classes += (MainActivity.bool[0]) ? ",a1," : "";
                             classes += (MainActivity.bool[1]) ? ",a2," : "";
@@ -348,7 +365,7 @@ public class MainActivityFragment extends Fragment implements CompoundButton.OnC
         relativeLayout.setVisibility(View.GONE);
     }
 
-    class parseResults extends AsyncTask<String, Integer, Integer> {
+    class ParseResults extends AsyncTask<String, Integer, Integer> {
 
         @Override
         protected Integer doInBackground(String... strings) {

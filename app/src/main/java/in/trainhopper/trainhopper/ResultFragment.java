@@ -3,6 +3,7 @@ package in.trainhopper.trainhopper;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,17 +31,26 @@ import com.android.volley.toolbox.Volley;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class ResultFragment extends Fragment {
 
+    FetchMoreResults fetchMoreResults = new FetchMoreResults();
+    ParseResults parseResults = new ParseResults();
     private View fview;
     private int checkedItemId = 0;
     private ResultRecyclerViewAdapter resultRecyclerViewAdapter;
-
     private boolean mLoading = false;
 
     public ResultFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fetchMoreResults.cancel(true);
+        parseResults.cancel(true);
     }
 
     @Override
@@ -47,12 +59,18 @@ public class ResultFragment extends Fragment {
         // Inflate the layout for this fragment
         if (fview == null)
             fview = inflater.inflate(R.layout.fragment_result, container, false);
+
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(MainActivity.sourceName + " TO " + MainActivity.destinationName);
-
             actionBar.setSubtitle(MainActivity.formatDate1(MainActivity.date));
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getActivity().getResources().getColor(R.color.primary_dark));
+        }
+
         if (JsonParser.resultContainerArrayList.size() == 0) {
             TextView textView2 = fview.findViewById(R.id.textView30);
             textView2.setVisibility(View.VISIBLE);
@@ -86,7 +104,7 @@ public class ResultFragment extends Fragment {
         resultRecyclerViewAdapter = new ResultRecyclerViewAdapter(getActivity(), JsonParser.resultContainerArrayList);
         recyclerView.setAdapter(resultRecyclerViewAdapter);
 
-        RecyclerView.OnScrollListener onScrollListener=new RecyclerView.OnScrollListener() {
+        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -95,22 +113,24 @@ public class ResultFragment extends Fragment {
                 int totalItems = recyclerView.getLayoutManager().getItemCount();
                 int firstVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
 
-                if (!mLoading) {
-                    if ((firstVisibleItem+visibleItems)>=resultRecyclerViewAdapter.getItemCount()
-                            && resultRecyclerViewAdapter.getItemCount()<50) {
+                Log.v("nero", JsonParser.resultTotalResults + " &&& " + resultRecyclerViewAdapter.getItemCount() + " &&& " + dy);
+                if (!mLoading && dy > 0) {
+                    if ((firstVisibleItem + visibleItems) >= resultRecyclerViewAdapter.getItemCount()
+                            && resultRecyclerViewAdapter.getItemCount() < JsonParser.resultTotalResults) {
                         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
                         // Request a string response from the provided URL.
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, MainActivity.IP + "/paginationdroid",
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                        new fetchMoreResults().execute(response);
-                                }
+                                        fetchMoreResults = new FetchMoreResults();
+                                        fetchMoreResults.execute(response);
+                                    }
                                 }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                               // Log.v(MainActivity.TAG, error.toString());
-                                mLoading=false;
+                                // Log.v(MainActivity.TAG, error.toString());
+                                mLoading = false;
                                 removeLoadingScreen();
                             }
                         }) {
@@ -118,13 +138,13 @@ public class ResultFragment extends Fragment {
                             protected Map<String, String> getParams() {
                                 JsonParser.resultCurrentPage++;
                                 Map<String, String> params = new HashMap<>();
-                                params.put("queryID", JsonParser.resultQueryID+"");
-                                params.put("page", JsonParser.resultCurrentPage+"");
+                                params.put("queryID", JsonParser.resultQueryID + "");
+                                params.put("page", JsonParser.resultCurrentPage + "");
                                 return params;
                             }
                         };
                         requestQueue.add(stringRequest);
-                        mLoading=true;
+                        mLoading = true;
                         RelativeLayout relativeLayout = fview.findViewById(R.id.layout2);
                         relativeLayout.setVisibility(View.VISIBLE);
                     }
@@ -147,7 +167,8 @@ public class ResultFragment extends Fragment {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         // Log.v(MainActivity.TAG, String.valueOf(response.length()));
-                        new parseResults().execute(response);
+                        parseResults = new ParseResults();
+                        parseResults.execute(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -166,6 +187,7 @@ public class ResultFragment extends Fragment {
                 // params.put("timeB", MainActivity.timeB);
                 params.put("direct", String.valueOf(MainActivity.checked));
                 params.put("sort", String.valueOf(checkedItemId + 1));
+                params.put("utcoffset", TimeZone.getDefault().getOffset(MainActivity.date.getTime()) + "");
 
                 String classes = "";
                 classes += (MainActivity.bool[0]) ? ",a1," : "";
@@ -193,7 +215,7 @@ public class ResultFragment extends Fragment {
         relativeLayout.setVisibility(View.GONE);
     }
 
-    private class fetchMoreResults extends AsyncTask<String, Integer, Integer> {
+    private class FetchMoreResults extends AsyncTask<String, Integer, Integer> {
         @Override
         protected Integer doInBackground(String... strings) {
 
@@ -229,7 +251,7 @@ public class ResultFragment extends Fragment {
         }
     }
 
-    class parseResults extends AsyncTask<String, Integer, Integer> {
+    class ParseResults extends AsyncTask<String, Integer, Integer> {
 
         @Override
         protected Integer doInBackground(String... strings) {
@@ -249,6 +271,21 @@ public class ResultFragment extends Fragment {
         protected void onPostExecute(Integer p) {
             resultRecyclerViewAdapter.notifyDataSetChanged();
             removeLoadingScreen();
+            TextView textView = fview.findViewById(R.id.textView5);
+            switch (checkedItemId) {
+                case 0:
+                    textView.setText("Results sorted by shortest duration");
+                    break;
+                case 1:
+                    textView.setText("Results sorted by earliest arrival time at destination");
+                    break;
+                case 2:
+                    textView.setText("Results sorted by shortest wait time before journey");
+                    break;
+                case 3:
+                    textView.setText("Results sorted by shortest Layover");
+                    break;
+            }
         }
     }
 }

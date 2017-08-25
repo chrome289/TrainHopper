@@ -16,9 +16,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    static final public String IP="http://192.168.1.6:3001";
     // --Commented out by Inspection (19-08-2017 05:35 PM):private Context context;
     static public final String TAG = "Nero";
+    static final protected String IP = "http://trainhopper-dev.us-east-2.elasticbeanstalk.com";
     static public String source = "";
     static public String destination = "";
     static public String sourceName = "";

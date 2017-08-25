@@ -31,38 +31,41 @@ class ResultRecyclerViewAdapter extends RecyclerView.Adapter<ResultRecyclerViewA
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.id = position;
+        ResultContainer resultContainer = resultElements.get(holder.id);
         try {
-            if (resultElements.get(position).legs.size() == 1) {
+            if (resultContainer.legs.size() == 1) {
                 holder.linearLayout.setVisibility(View.GONE);
                 holder.textView.setVisibility(View.GONE);
-                holder.textView6.setText(resultElements.get(position).legs.get(0).train_name);
+                holder.textView6.setText(resultContainer.legs.get(0).train_name);
             } else {
-                resultElements.get(position).layover = resultElements.get(position).total_duration
-                        - (resultElements.get(position).legs.get(0).duration+resultElements.get(position).legs.get(1).duration);
-                /*Log.v("Nero",resultElements.get(position).legs.get(0).arrival_start+" "+
-                        resultElements.get(position).legs.get(0).departure_start+" "+
-                        resultElements.get(position).legs.get(0).arrival_end+" "+
-                        resultElements.get(position).legs.get(0).departure_end+" "+
-                        resultElements.get(position).legs.get(1).arrival_start+" "+
-                        resultElements.get(position).legs.get(1).departure_start+" "+
-                        resultElements.get(position).legs.get(1).arrival_end+" "+
-                        resultElements.get(position).legs.get(1).departure_end+" ");*/
-               // Log.v("neero", resultElements.get(position).layover + "#" + resultElements.get(position).legs.get(0).station_name_end);
-                holder.textView6.setText(resultElements.get(position).legs.get(0).train_name
-                        + " &" + resultElements.get(position).legs.get(1).train_name);
-                holder.textView.setText("via " + toCamelCase(resultElements.get(position).legs.get(0).station_name_end));
-                holder.textView5.setText("Layover of " + (resultElements.get(position).layover / 3600 + ":" + (((resultElements.get(position).layover / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).layover / 60 % 60) + " HRS");
+                resultContainer.layover = resultContainer.total_duration
+                        - (resultContainer.legs.get(0).duration + resultContainer.legs.get(1).duration);
+
+                holder.linearLayout.setVisibility(View.VISIBLE);
+                holder.textView.setVisibility(View.VISIBLE);
+                holder.textView6.setText(resultContainer.legs.get(0).train_name
+                        + " &" + resultContainer.legs.get(1).train_name);
+                holder.textView.setText("via " + toCamelCase(resultContainer.legs.get(0).station_name_end));
+                holder.textView5.setText("Layover of " + (resultContainer.layover / 3600
+                        + ":" + (((resultContainer.layover / 60 % 60) < 10) ? "0" : "")
+                        + resultContainer.layover / 60 % 60) + " HRS");
             }
 
-            holder.textView4.setText(resultElements.get(position).total_duration / 3600 + ":" + (((resultElements.get(position).total_duration / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).total_duration / 60 % 60);
+            holder.textView4.setText(resultContainer.total_duration / 3600
+                    + ":" + (((resultContainer.total_duration / 60 % 60) < 10) ? "0" : "")
+                    + resultContainer.total_duration / 60 % 60);
 
             final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
 
             // Log.v(MainActivity.TAG,"result time"+ resultElements.get(position).legs.get(0).arrival_start/3600+":"+(((resultElements.get(position).legs.get(0).arrival_start/60%60)<10)?"0":"")+ resultElements.get(position).legs.get(0).arrival_start/60%60);
-            Date dateObj = sdf.parse(resultElements.get(position).legs.get(0).arrival_start / 3600 + ":" + (((resultElements.get(position).legs.get(0).arrival_start / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).legs.get(0).arrival_start / 60 % 60);
+            Date dateObj = sdf.parse(resultContainer.legs.get(0).arrival_start / 3600
+                    + ":" + (((resultContainer.legs.get(0).arrival_start / 60 % 60) < 10) ? "0" : "")
+                    + resultContainer.legs.get(0).arrival_start / 60 % 60);
             holder.textView2.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
-            dateObj = sdf.parse(resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 3600 + ":" + (((resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 60 % 60) < 10) ? "0" : "") + resultElements.get(position).legs.get(resultElements.get(position).legs.size() - 1).arrival_end / 60 % 60);
+            dateObj = sdf.parse(resultContainer.legs.get(resultContainer.legs.size() - 1).arrival_end / 3600
+                    + ":" + (((resultContainer.legs.get(resultContainer.legs.size() - 1).arrival_end / 60 % 60) < 10) ? "0" : "")
+                    + resultContainer.legs.get(resultContainer.legs.size() - 1).arrival_end / 60 % 60);
             holder.textView3.setText(new SimpleDateFormat("h:mm a").format(dateObj));
 
         } catch (Exception e) {

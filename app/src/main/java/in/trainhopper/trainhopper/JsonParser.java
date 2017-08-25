@@ -12,12 +12,12 @@ import java.util.Calendar;
 
 class JsonParser {
     static final ArrayList<ResultContainer> resultContainerArrayList = new ArrayList<>();
-    static long resultQueryID;
+    static long resultQueryID, resultTotalResults = 0;
     static int resultCurrentPage;
 
     void parseResponse1(Context context, String response) throws IOException {
         Calendar c = Calendar.getInstance();
-        Log.v("nero", c.getTimeInMillis() + "");
+        Log.v("nero", response + "");
         JsonReader jsonReader = new JsonReader(new InputStreamReader(new ByteArrayInputStream(response.getBytes()), "UTF-8"));
         int result = readJsonArray1(context, jsonReader);
         jsonReader.close();
@@ -110,6 +110,8 @@ class JsonParser {
                 jsonReader.nextName();
                 resultQueryID = jsonReader.nextLong();
                 resultCurrentPage = 0;
+            jsonReader.nextName();
+            resultTotalResults = jsonReader.nextLong();
             //Log.v("nero","query id  "+resultQueryID);
             return 0;
         } catch (Exception e) {
